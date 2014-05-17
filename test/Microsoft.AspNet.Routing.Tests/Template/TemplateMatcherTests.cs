@@ -720,7 +720,7 @@ namespace Microsoft.AspNet.Routing.Template.Tests
         public void MatchDoesNotSetOptionalParameter()
         {
             // Arrange
-            var route = CreateMatcher("{controller}/{action?}");
+            var route = CreateMatcher("{controller}/{action:int?}");
             var url = "Home";
 
             // Act
@@ -784,13 +784,13 @@ namespace Microsoft.AspNet.Routing.Template.Tests
 
         private TemplateMatcher CreateMatcher(string template)
         {
-            return new TemplateMatcher(TemplateParser.Parse(template));
+            return new TemplateMatcher(TemplateParser.Parse(template, new DefaultInlineConstraintResolver()));
         }
 
         private static void RunTest(string template, string path, IDictionary<string, object> defaults, IDictionary<string, object> expected)
         {
             // Arrange
-            var matcher = new TemplateMatcher(TemplateParser.Parse(template));
+            var matcher = new TemplateMatcher(TemplateParser.Parse(template, new DefaultInlineConstraintResolver()));
 
             // Act
             var match = matcher.Match(path, defaults);
